@@ -1,0 +1,34 @@
+module game_logic(
+    input clk,
+    input reset,
+    input [6:0] player_input,
+    output reg [2:0] colour,
+    output reg [7:0] x,
+    output reg [6:0] y,
+    output reg plot
+);
+
+    reg [1:0] game_board[6:0][5:0]; // 7 columns x 6 rows
+    reg [2:0] current_player = 1; // Player 1 starts
+
+    // Initialization and Reset
+    integer col, row;
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            // Reset game board and player
+            for (col = 0; col < 7; col = col + 1) begin
+                for (row = 0; row < 6; row = row + 1) begin
+                    game_board[col][row] <= 2'b00;
+                end
+            end
+            current_player <= 1;
+        end else begin
+            // Game logic: handle player moves, check win conditions, etc.
+            // Update VGA output signals (colour, x, y, plot) based on game state
+        end
+    end
+
+    // Additional logic to process player input and update the game state
+    // Logic to translate the game state to VGA signals
+
+endmodule

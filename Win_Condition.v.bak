@@ -1,0 +1,49 @@
+module WinCondition(
+    input [1:0] player,  // Player to check for (2'b01 for Player 1, 2'b10 for Player 2)
+    input [1:0] game_board[0:6][0:5],  // 7 columns x 6 rows game board
+    output reg game_over  // Game over flag (1 if a player wins, 0 otherwise)
+);
+
+integer col, row;
+
+always @(*) begin
+    game_over = 0;  // Initialize the game over flag
+
+    // Check for horizontal wins
+    for (col = 0; col < 4; col = col + 1) begin
+        for (row = 0; row < 6; row = row + 1) begin
+            if (game_board[col][row] == player &&
+                game_board[col+1][row] == player &&
+                game_board[col+2][row] == player &&
+                game_board[col+3][row] == player) begin
+                game_over = 1;  // Player wins horizontally
+                return;
+            end
+        end
+    end
+
+    // Check for vertical wins
+    for (col = 0; col < 7; col = col + 1) begin
+        for (row = 0; row < 3; row = row + 1) begin
+            if (game_board[col][row] == player &&
+                game_board[col][row+1] == player &&
+                game_board[col][row+2] == player &&
+                game_board[col][row+3] == player) begin
+                game_over = 1;  // Player wins vertically
+                return;
+            end
+        end
+    end
+
+    // Check for diagonal wins (ascending)
+    for (col = 0; col < 4; col = col + 1) begin
+        for (row = 0; row < 3; row = row + 1) begin
+            if (game_board[col][row] == player &&
+                game_board[col+1][row+1] == player &&
+                game_board[col+2][row+2] == player &&
+                game_board[col+3][row+3] == player) begin
+                game_over = 1;  // Player wins diagonally (ascending)
+                return;
+            end
+        end
+    end

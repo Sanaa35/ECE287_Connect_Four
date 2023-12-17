@@ -5,8 +5,8 @@ module debouncer(
     output reg debounced_signal
 );
 
-    parameter DEBOUNCE_INTERVAL = 1000000; // Adjust as per your clock frequency
-    reg [19:0] counter;  // Counter width depends on DEBOUNCE_INTERVAL
+    parameter DEBOUNCE_INTERVAL = 1000000; 
+    reg [19:0] counter;  
     reg last_stable_signal;  // To store the last stable state of the signal
 
     always @(posedge clk or negedge resetn) begin
@@ -20,14 +20,10 @@ module debouncer(
                 last_stable_signal <= noisy_signal;
                 counter <= 0;
             end else if (counter < DEBOUNCE_INTERVAL) begin
-                // Increment counter as long as the signal remains stable
                 counter <= counter + 1;
             end else if (counter == DEBOUNCE_INTERVAL) begin
-                // Update debounced signal after the signal has been stable for the interval
                 debounced_signal <= last_stable_signal;
             end
-            // No need for an 'else' case since the counter will stop incrementing
-            // once it reaches the DEBOUNCE_INTERVAL
         end
     end
 endmodule
